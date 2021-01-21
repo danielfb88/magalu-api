@@ -1,0 +1,25 @@
+{
+  "name": "delivery-much",
+  "version": "1.0.0",
+  "description": "Challenge",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/danielfb88/delivery-much.git"
+  },
+  "keywords": [
+    "challenge"
+  ],
+  "author": "Daniel Bonfim",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/danielfb88/delivery-much/issues"
+  },
+  "homepage": "https://github.com/danielfb88/delivery-much#readme",
+  "devDependencies": {
+    "git-commit-msg-linter": "^3.0.0"
+  }
+}
