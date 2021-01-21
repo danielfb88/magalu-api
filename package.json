@@ -4,7 +4,9 @@
   "description": "Challenge",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "eslint:fix": "eslint --fix '**/*.{t,j}s'",
+    "eslint:check": "eslint '**/*.{t,j}s'"
   },
   "repository": {
     "type": "git",
@@ -20,7 +22,19 @@
   },
   "homepage": "https://github.com/danielfb88/delivery-much#readme",
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.14.0",
+    "eslint": "^7.18.0",
+    "eslint-config-prettier": "^7.2.0",
+    "eslint-config-standard-with-typescript": "^19.0.1",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.3.1",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^5.0.0",
     "git-commit-msg-linter": "^3.0.0",
+    "husky": "^4.3.8",
+    "lint-staged": "^10.5.3",
+    "prettier": "^2.2.1",
     "ts-node": "^9.1.1",
     "ts-node-dev": "^1.1.1"
   },
