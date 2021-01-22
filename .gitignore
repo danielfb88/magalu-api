@@ -1,2 +1,5 @@
 node_modules/
-.vscode/
+.vscode/settings.json
+coverage/
+.fuse_hidden*
+.env

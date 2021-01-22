@@ -1,0 +1,28 @@
+version: '3.7'
+services:
+
+  mongo:
+    image: mongo:3.6.21
+    ports: [ "27019:27017" ]
+    networks: [ api_net ]
+    command: --logpath=/dev/null
+    environment:
+      TZ: America/Sao_Paulo
+
+  api:
+    image: node:14.15.3-alpine
+    working_dir: "/usr/current/app"
+    command: "npm run debug"
+    env_file: .env
+    volumes: 
+      - .:/usr/current/app:rw
+      - ./node_modules:/usr/current/app/node_modules:cached
+    ports: [ "3000:3000", "9229:9229"]
+    tty: true
+    networks: [ api_net ]
+    links: [ mongo ]
+    depends_on: [ mongo ]
+
+networks:
+    api_net:
+      external: true

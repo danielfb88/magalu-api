@@ -4,7 +4,7 @@ let mongooseConnection: Mongoose
 
 beforeAll(async done => {
   try {
-    const DB_URI = 'mongodb://localhost:27017/ith_test'
+    const DB_URI = 'mongodb://mongo:27017/db-test'
 
     mongooseConnection = await mongoose.connect(DB_URI, {
       useNewUrlParser: true,

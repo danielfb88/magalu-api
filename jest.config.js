@@ -10,6 +10,8 @@ module.exports = {
     '/src/main',
     'server.ts',
     'src/errors/database-connection-error.ts',
+    'src/integrations/',
+    'src/errors/',
   ],
   coverageReporters: ['json-summary', 'lcov', 'text'],
   coverageThreshold: {
@@ -31,6 +33,6 @@ module.exports = {
   testEnvironment: 'node',
   testMatch: ['**/{src,tests}/**/*.test.ts?(x)'],
   testTimeout: 60000,
-  testResultsProcessor: 'jest-sonar-reporter',
+  // testResultsProcessor: 'jest-sonar-reporter',
   setupFilesAfterEnv: ['<rootDir>/tests/jest-preload.js'],
 }
