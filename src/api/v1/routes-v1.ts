@@ -1,11 +1,11 @@
 import { Router } from 'express'
+import { initClientRoutes } from './business/client/client-route'
 
-export default class RoutesV1 {
-  getRouter(): Router {
-    const v1 = Router()
+export function getRoutesV1(): Router {
+  const router = Router()
 
-    v1.route('/health').get((req, res) => res.status(200).send()) // health check
+  router.route('/health').get((req, res) => res.status(200).send()) // health check
+  router.use('/client', initClientRoutes())
 
-    return v1
-  }
+  return router
 }

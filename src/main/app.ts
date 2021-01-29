@@ -5,7 +5,7 @@ import express from 'express'
 import morgan from 'morgan'
 import swaggerUI from 'swagger-ui-express'
 import YAML from 'yamljs'
-import RoutesV1 from '../api/v1/routes-v1'
+import { getRoutesV1 } from '../api/v1/routes-v1'
 import { handleError } from './middlewares/handle-error'
 import throw404 from './middlewares/throw-404'
 
@@ -34,9 +34,10 @@ class App {
   }
 
   loadRoutes(): void {
-    this.app.use('/', new RoutesV1().getRouter())
+    this.app.use('/v1', getRoutesV1())
   }
 
+  // TODO: create document
   initSwagger(): void {
     const swaggerFile = YAML.load('./swagger.yaml')
     this.app.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerFile))
