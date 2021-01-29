@@ -4,6 +4,6 @@ import { INewClient } from './client-model'
 export function mockClient(): INewClient {
   return {
     name: `${faker.name.firstName()} ${faker.name.lastName()}`,
-    email: faker.internet.email(),
+    email: faker.internet.email().toLowerCase(),
   }
 }

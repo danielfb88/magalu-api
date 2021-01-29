@@ -4,6 +4,16 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+
+        {
+            "type": "node",
+            "request": "attach",
+            "name": "Docker: Attach to Node",
+            "remoteRoot": "/usr/current/app",
+            "sourceMapPathOverrides": {
+                "/usr/current/app/*": "${workspaceRoot}/*"
+            }
+        },
         {
             "type": "pwa-node",
             "request": "launch",
@@ -44,16 +54,6 @@
             "disableOptimisticBPs": true,
             "windows": {
               "program": "${workspaceFolder}/node_modules/jest/bin/jest"
-            }
-        },
-        {
-            "type": "node",
-            "request": "attach",
-            "name": "Docker: Attach to Node",
-            "port": 9229,
-            "address":"localhost",
-            "sourceMapPathOverrides": {
-                "/usr/current/app/*": "${workspaceRoot}/*"
             }
         },
     ]

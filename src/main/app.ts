@@ -34,6 +34,8 @@ class App {
   }
 
   loadRoutes(): void {
+    this.app.route('/health').get((req, res) => res.status(200).send()) // health check
+
     this.app.use('/v1', getRoutesV1())
   }
 

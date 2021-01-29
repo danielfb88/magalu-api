@@ -27,12 +27,14 @@ export default class ClientController extends BaseController {
     try {
       this.checkValidationErrors(req)
 
-      const client = await this.clientService.findByEmail(req.body.email)
+      const { body } = req
+
+      const client = await this.clientService.findByEmail(body.email)
       if (client !== null) {
         throw new EmailInUseError()
       }
 
-      const createdClient = await this.clientService.create(req.body)
+      const createdClient = await this.clientService.create(body)
 
       const payload: IClientResponse = {
         id: createdClient.id,
