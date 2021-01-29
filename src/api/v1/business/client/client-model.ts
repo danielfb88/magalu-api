@@ -1,9 +1,5 @@
 import mongoose, { Document } from 'mongoose'
-
-export interface INewClient {
-  name: string
-  email: string
-}
+import { INewClient } from './client-types'
 
 export interface IClientDocument extends INewClient, Document {}
 
