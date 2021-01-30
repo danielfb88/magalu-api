@@ -3,11 +3,12 @@ import * as HTTPStatus from 'http-status'
 import BaseController from '../../../../base/base-controller'
 import { ClientNotFoundError } from '../../../../errors/client-not-found-error'
 import { EmailInUseError } from '../../../../errors/email-in-use-error'
+import { NotFoundError } from '../../../../errors/not-found-error'
 import ClientService from './client-service'
-import { IClientResponse } from './client-types'
+import { IClientResponse, INewClient } from './client-types'
 
 export default class ClientController extends BaseController {
-  readonly clientService: ClientService
+  protected clientService: ClientService
 
   constructor() {
     super()
@@ -27,17 +28,17 @@ export default class ClientController extends BaseController {
     try {
       this.checkValidationErrors(req)
 
-      const { body } = req
+      const newClient = req.body as INewClient
 
-      const client = await this.clientService.findByEmail(body.email)
+      const client = await this.clientService.findByEmail(newClient.email)
       if (client !== null) {
         throw new EmailInUseError()
       }
 
-      const createdClient = await this.clientService.create(body)
+      const createdClient = await this.clientService.create(newClient)
 
       const payload: IClientResponse = {
-        id: createdClient.id,
+        id: createdClient.id as string,
         name: createdClient.name,
         email: createdClient.email,
       }
@@ -49,10 +50,32 @@ export default class ClientController extends BaseController {
   }
 
   // TODO: Update
-  async update(req: Request, res: Response, next: NextFunction): Promise<void> {}
+  async update(req: Request, res: Response, next: NextFunction): Promise<void> {
+    next(new NotFoundError())
+  }
 
-  // TODO: Delete
-  async delete(req: Request, res: Response, next: NextFunction): Promise<void> {}
+  /**
+   * Delete client
+   *
+   * @param {Request} req
+   * @param {Response} res
+   * @param {NextFunction} next
+   * @return {*}  {Promise<void>}
+   * @memberof ClientController
+   */
+  async delete(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      this.checkValidationErrors(req)
+
+      const { id } = req.params
+
+      await this.clientService.deleteById(id)
+
+      res.sendStatus(HTTPStatus.OK)
+    } catch (err) {
+      next(err)
+    }
+  }
 
   /**
    * Get all clients
@@ -72,7 +95,7 @@ export default class ClientController extends BaseController {
       res.status(HTTPStatus.OK).json(
         clientList.map(client => {
           const payload: IClientResponse = {
-            id: client.id,
+            id: client.id as string,
             name: client.name,
             email: client.email,
           }
@@ -107,7 +130,7 @@ export default class ClientController extends BaseController {
       }
 
       const payload: IClientResponse = {
-        id: client.id,
+        id: client.id as string,
         name: client.name,
         email: client.email,
       }

@@ -3,6 +3,12 @@ export interface INewClient {
   email: string
 }
 
-export interface IClientResponse extends INewClient {
+export interface IClient extends INewClient {
   id?: string
+  createdAt?: string
+  updatedAt?: string
+}
+
+export interface IClientResponse extends INewClient {
+  id: string
 }

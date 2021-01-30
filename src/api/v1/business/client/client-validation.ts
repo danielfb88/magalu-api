@@ -5,11 +5,7 @@ export const createClientValidation = [
   check('email').exists().bail().isEmail().withMessage('must be a valid email'),
 ]
 
-export const updateClientValidation = [
-  param('id').not().isEmpty(),
-  body('name').exists(),
-  check('email').exists().bail().isEmail().withMessage('must be a valid email'),
-]
+export const updateClientValidation = [param('id').not().isEmpty(), body('name').exists()]
 
 export const getClientValidation = [param('id').not().isEmpty()]
 

@@ -1,5 +1,5 @@
 import faker from 'faker'
-import { INewClient } from './client-model'
+import { INewClient } from './client-types'
 
 export function mockClient(): INewClient {
   return {
