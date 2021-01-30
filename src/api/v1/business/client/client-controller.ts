@@ -3,7 +3,6 @@ import * as HTTPStatus from 'http-status'
 import BaseController from '../../../../base/base-controller'
 import { ClientNotFoundError } from '../../../../errors/client-not-found-error'
 import { EmailInUseError } from '../../../../errors/email-in-use-error'
-import { NotFoundError } from '../../../../errors/not-found-error'
 import ClientService from './client-service'
 import { IClientResponse, INewClient } from './client-types'
 
@@ -49,9 +48,34 @@ export default class ClientController extends BaseController {
     }
   }
 
-  // TODO: Update
+  /**
+   * Update client
+   *
+   * @param {Request} req
+   * @param {Response} res
+   * @param {NextFunction} next
+   * @return {*}  {Promise<void>}
+   * @memberof ClientController
+   */
   async update(req: Request, res: Response, next: NextFunction): Promise<void> {
-    next(new NotFoundError())
+    try {
+      this.checkValidationErrors(req)
+
+      const { id } = req.params
+      const { name } = req.body
+
+      const updatedClient = await this.clientService.updateById({ id, name })
+
+      const payload: IClientResponse = {
+        id: updatedClient.id as string,
+        name: updatedClient.name,
+        email: updatedClient.email,
+      }
+
+      res.status(HTTPStatus.OK).json(payload)
+    } catch (err) {
+      next(err)
+    }
   }
 
   /**
