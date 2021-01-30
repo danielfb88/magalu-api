@@ -8,8 +8,8 @@ import ClientService from '../../../client-service'
 const request = supertest
 const clientService = new ClientService()
 
-describe('GET - Get all clients', () => {
-  const endpoint = '/v1/client/'
+describe('Integration Test - Get all clients', () => {
+  const endpoint = '/v1/client'
 
   beforeAll(async done => {
     await clientService.deleteAll()

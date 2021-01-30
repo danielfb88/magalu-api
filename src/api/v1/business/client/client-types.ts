@@ -5,8 +5,8 @@ export interface INewClient {
 
 export interface IClient extends INewClient {
   id?: string
-  createdAt?: string
-  updatedAt?: string
+  createdAt?: Date
+  updatedAt?: Date
 }
 
 export interface IClientResponse extends INewClient {

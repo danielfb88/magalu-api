@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "dev": "cross-env NODE_ENV=development ts-node-dev -r dotenv/config -P tsconfig.json server.ts",
+    "docker:dev": "docker-compose run --rm --service-ports api npm run dev",
     "test": "node -r ts-node/register --inspect=0.0.0.0:9229 ./node_modules/jest/bin/jest.js --setupFiles dotenv/config -w9 --detectOpenHandles --watchAll",
+    "docker:test": "docker-compose run --rm --service-ports api npm run test",
     "debug": "node -r ts-node/register --inspect=0.0.0.0:9229 server.ts",
     "eslint:fix": "eslint --fix '**/*.{t,j}s'",
     "eslint:check": "eslint '**/*.{t,j}s'"

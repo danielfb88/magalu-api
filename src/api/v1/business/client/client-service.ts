@@ -30,8 +30,8 @@ export default class ClientService {
    * @return {*}  {Promise<IClient>}
    * @memberof ClientService
    */
-  async updateById(id: string, client: INewClient): Promise<IClient> {
-    const updatedClient = await this.model.findOneAndUpdate({ id }, { name: client.name }, { new: true })
+  async updateById(args: { id: string; name: string }): Promise<IClient> {
+    const updatedClient = await this.model.findOneAndUpdate({ _id: args.id }, { name: args.name }, { new: true })
 
     return updatedClient
   }
@@ -44,7 +44,7 @@ export default class ClientService {
    * @memberof ClientService
    */
   async deleteById(id: string): Promise<void> {
-    await this.model.deleteOne({ id })
+    await this.model.deleteOne({ _id: id })
   }
 
   /**

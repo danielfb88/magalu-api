@@ -4,14 +4,14 @@ import '../../../../../../../../tests/helpers'
 import app from '../../../../../../../main/app'
 import { mockClient } from '../../../client-mock'
 import ClientService from '../../../client-service'
-import { IClientResponse } from '../../../client-types'
+import { IClient } from '../../../client-types'
 
 const request = supertest
 const clientService = new ClientService()
 
-let createdClient: IClientResponse
+let createdClient: IClient
 
-describe('PUT - Validate update client', () => {
+describe('Integration Test - Validate update client', () => {
   const endpoint = '/v1/client/'
 
   beforeAll(async done => {
