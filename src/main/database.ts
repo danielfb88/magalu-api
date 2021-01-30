@@ -17,6 +17,8 @@ export default async function setupDatabase(): Promise<Mongoose> {
 
     mongoose.set('debug', true)
 
+    mongoose.set('useFindAndModify', false)
+
     return mongoose
   } catch (error) {
     console.error('Unable to connect to the database:', error)
