@@ -1,6 +1,6 @@
 import { Model } from 'mongoose'
 import User, { IUserDocument } from './user-model'
-import { INewUser, IUser } from './user-types'
+import { INewUser } from './user-types'
 
 export default class UserService {
   protected model: Model<IUserDocument>
@@ -16,7 +16,7 @@ export default class UserService {
    * @return {*}  {Promise<IUser>}
    * @memberof UserService
    */
-  async create(newUser: INewUser): Promise<IUser> {
+  async create(newUser: INewUser): Promise<IUserDocument> {
     const user = await this.model.create(newUser)
 
     return user
@@ -29,7 +29,7 @@ export default class UserService {
    * @return {*}  {(Promise<IUser | null>)}
    * @memberof UserService
    */
-  async findByEmail(email: string): Promise<IUser | null> {
+  async findByEmail(email: string): Promise<IUserDocument | null> {
     const user = await this.model.findOne({ email })
 
     return user
@@ -42,7 +42,7 @@ export default class UserService {
    * @return {*}  {(Promise<IUser | null>)}
    * @memberof UserService
    */
-  async findByApiKey(apiKey: string): Promise<IUser | null> {
+  async findByApiKey(apiKey: string): Promise<IUserDocument | null> {
     const user = await this.model.findOne({ apiKey })
 
     return user

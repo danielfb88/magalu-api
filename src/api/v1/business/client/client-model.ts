@@ -1,6 +1,6 @@
 import mongoose, { Document } from 'mongoose'
 
-export interface IClient extends Document {
+export interface IClientDocument extends Document {
   name: string
   email: string
   favorites: Array<{ productId: string }>
@@ -34,4 +34,4 @@ const ClientSchema = new mongoose.Schema(
   },
 )
 
-export default mongoose.model<IClient>('clients', ClientSchema)
+export default mongoose.model<IClientDocument>('clients', ClientSchema)

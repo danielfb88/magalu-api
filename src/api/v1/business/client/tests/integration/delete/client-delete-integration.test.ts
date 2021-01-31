@@ -4,10 +4,10 @@ import supertest from 'supertest'
 import '../../../../../../../../tests/helpers'
 import app from '../../../../../../../main/app'
 import { mockUser } from '../../../../user/user-mock'
+import { IUserDocument } from '../../../../user/user-model'
 import UserService from '../../../../user/user-service'
-import { IUser } from '../../../../user/user-types'
 import { mockClient } from '../../../client-mock'
-import { IClient } from '../../../client-model'
+import { IClientDocument } from '../../../client-model'
 import ClientService from '../../../client-service'
 
 const request = supertest
@@ -16,8 +16,8 @@ const userService = new UserService()
 
 const password = faker.random.alphaNumeric(8)
 
-let createdClient: IClient
-let createdUser: IUser
+let createdClient: IClientDocument
+let createdUser: IUserDocument
 
 describe('Integration Test - Delete client', () => {
   const endpoint = '/v1/client'

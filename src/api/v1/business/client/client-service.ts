@@ -1,9 +1,9 @@
 import { Model } from 'mongoose'
-import Client, { IClient } from './client-model'
+import Client, { IClientDocument } from './client-model'
 import { INewClient } from './client-types'
 
 export default class ClientService {
-  protected model: Model<IClient>
+  protected model: Model<IClientDocument>
 
   constructor() {
     this.model = Client
@@ -16,7 +16,7 @@ export default class ClientService {
    * @return {*}  {Promise<IClient>}
    * @memberof ClientService
    */
-  async create(newClient: INewClient): Promise<IClient> {
+  async create(newClient: INewClient): Promise<IClientDocument> {
     const client = await this.model.create(newClient)
 
     return client
@@ -30,7 +30,7 @@ export default class ClientService {
    * @return {*}  {Promise<IClient>}
    * @memberof ClientService
    */
-  async updateById(args: { id: string; name: string }): Promise<IClient> {
+  async updateById(args: { id: string; name: string }): Promise<IClientDocument> {
     const updatedClient = await this.model.findOneAndUpdate({ _id: args.id }, { name: args.name }, { new: true })
 
     return updatedClient
@@ -54,7 +54,7 @@ export default class ClientService {
    * @return {*}  {(Promise<IClient | null>)}
    * @memberof ClientService
    */
-  async findById(id: string): Promise<IClient | null> {
+  async findById(id: string): Promise<IClientDocument | null> {
     const landlord = await this.model.findById(id)
 
     return landlord
@@ -67,7 +67,7 @@ export default class ClientService {
    * @return {*}  {(Promise<IClient | null>)}
    * @memberof ClientService
    */
-  async findByEmail(email: string): Promise<IClient | null> {
+  async findByEmail(email: string): Promise<IClientDocument | null> {
     const client = await this.model.findOne({ email })
 
     return client
@@ -79,7 +79,7 @@ export default class ClientService {
    * @return {*}  {Promise<IClient[]>}
    * @memberof ClientService
    */
-  async findAll(): Promise<IClient[]> {
+  async findAll(): Promise<IClientDocument[]> {
     const clientList = await this.model.find({})
 
     return clientList
@@ -103,7 +103,7 @@ export default class ClientService {
    * @return {*}  {Promise<IClient>}
    * @memberof ClientService
    */
-  async pushFavorite(clientId: string, productId: string): Promise<IClient> {
+  async pushFavorite(clientId: string, productId: string): Promise<IClientDocument> {
     return this.model.findOneAndUpdate(
       {
         _id: clientId,
@@ -129,7 +129,7 @@ export default class ClientService {
    * @return {*}  {Promise<IClient>}
    * @memberof ClientService
    */
-  async removeFromFavorites(clientId: string, productId: string): Promise<IClient> {
+  async removeFromFavorites(clientId: string, productId: string): Promise<IClientDocument> {
     return this.model.findOneAndUpdate(
       {
         _id: clientId,

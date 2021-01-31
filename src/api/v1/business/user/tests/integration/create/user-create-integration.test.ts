@@ -4,13 +4,13 @@ import supertest from 'supertest'
 import '../../../../../../../../tests/helpers'
 import app from '../../../../../../../main/app'
 import { mockUser } from '../../../user-mock'
+import { IUserDocument } from '../../../user-model'
 import UserService from '../../../user-service'
-import { IUser } from '../../../user-types'
 
 const request = supertest
 const userService = new UserService()
 
-let createdUser: IUser
+let createdUser: IUserDocument
 const password = faker.random.alphaNumeric(8)
 
 describe('Integration Test - Create user', () => {

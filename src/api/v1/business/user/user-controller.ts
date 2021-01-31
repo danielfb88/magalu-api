@@ -6,8 +6,6 @@ import { EmailInUseError } from '../../../../errors/email-in-use-error'
 import { UserNotFoundError } from '../../../../errors/user-not-found-error'
 import { comparePassword, encryptPassword, generateApiKey } from '../../../../util/crypto'
 import UserService from './user-service'
-import { IUserResponse } from './user-types'
-
 export default class UserController extends BaseController {
   readonly userService: UserService
 
@@ -33,13 +31,7 @@ export default class UserController extends BaseController {
         apiKey: generateApiKey(),
       })
 
-      const payload: IUserResponse = {
-        id: createdUser.id as string,
-        email: createdUser.email,
-        apiKey: createdUser.apiKey as string,
-      }
-
-      res.status(HTTPStatus.CREATED).json(payload)
+      res.status(HTTPStatus.CREATED).json(createdUser.toJSON())
     } catch (err) {
       next(err)
     }
@@ -69,13 +61,7 @@ export default class UserController extends BaseController {
         throw new AuthenticationFailedError()
       }
 
-      const payload: IUserResponse = {
-        id: user.id as string,
-        email: user.email,
-        apiKey: user.apiKey as string,
-      }
-
-      res.status(HTTPStatus.OK).json(payload)
+      res.status(HTTPStatus.OK).json(user.toJSON())
     } catch (err) {
       next(err)
     }

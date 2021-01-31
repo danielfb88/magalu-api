@@ -1,7 +1,10 @@
 import mongoose, { Document } from 'mongoose'
-import { INewUser } from './user-types'
 
-export interface IUserDocument extends INewUser, Document {}
+export interface IUserDocument extends Document {
+  email: string
+  password: string
+  apiKey: string
+}
 
 const UserSchema = new mongoose.Schema(
   {
@@ -27,5 +30,15 @@ const UserSchema = new mongoose.Schema(
     timestamps: true,
   },
 )
+
+UserSchema.set('toJSON', {
+  virtuals: true,
+  transform: (docs: any, converted: any) => {
+    delete converted.__v
+    delete converted._id
+    delete converted.password
+    return converted
+  },
+})
 
 export default mongoose.model<IUserDocument>('users', UserSchema)
