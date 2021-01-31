@@ -50,9 +50,6 @@ describe('Integration Test - Delete client', () => {
 
     expect(res.status).toBe(HTTPStatus.UNAUTHORIZED)
 
-    const client = await clientService.findById(createdClient.id as string)
-    expect(client).toBeNull()
-
     done()
   })
 })

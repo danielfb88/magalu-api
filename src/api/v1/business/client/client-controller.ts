@@ -40,6 +40,7 @@ export default class ClientController extends BaseController {
         id: createdClient.id as string,
         name: createdClient.name,
         email: createdClient.email,
+        favorites: [], // TODO: retorn favorite
       }
 
       res.status(HTTPStatus.CREATED).json(payload)
@@ -61,15 +62,16 @@ export default class ClientController extends BaseController {
     try {
       this.checkValidationErrors(req)
 
-      const { id } = req.params
+      const { clientId } = req.params
       const { name } = req.body
 
-      const updatedClient = await this.clientService.updateById({ id, name })
+      const updatedClient = await this.clientService.updateById({ id: clientId, name })
 
       const payload: IClientResponse = {
         id: updatedClient.id as string,
         name: updatedClient.name,
         email: updatedClient.email,
+        favorites: [], // TODO: return favorites
       }
 
       res.status(HTTPStatus.OK).json(payload)
@@ -91,9 +93,9 @@ export default class ClientController extends BaseController {
     try {
       this.checkValidationErrors(req)
 
-      const { id } = req.params
+      const { clientId } = req.params
 
-      await this.clientService.deleteById(id)
+      await this.clientService.deleteById(clientId)
 
       res.sendStatus(HTTPStatus.OK)
     } catch (err) {
@@ -122,6 +124,7 @@ export default class ClientController extends BaseController {
             id: client.id as string,
             name: client.name,
             email: client.email,
+            favorites: [], // TODO: return favorites
           }
 
           return payload
@@ -145,9 +148,9 @@ export default class ClientController extends BaseController {
     try {
       this.checkValidationErrors(req)
 
-      const { id } = req.params
+      const { clientId } = req.params
 
-      const client = await this.clientService.findById(id)
+      const client = await this.clientService.findById(clientId)
 
       if (client === null) {
         throw new ClientNotFoundError()
@@ -157,11 +160,65 @@ export default class ClientController extends BaseController {
         id: client.id as string,
         name: client.name,
         email: client.email,
+        favorites: [], // TODO: return favorites
       }
 
       res.status(HTTPStatus.OK).json(payload)
     } catch (err) {
       next(err)
+    }
+  }
+
+  /**
+   * Push product id to favorite list
+   *
+   * @param {Request} req
+   * @param {Response} res
+   * @param {NextFunction} next
+   * @return {*}  {Promise<void>}
+   * @memberof ClientController
+   */
+  async pushFavorite(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      this.checkValidationErrors(req)
+
+      const { clientId, productId } = req.params
+
+      const client = await this.clientService.pushFavorite(clientId, productId)
+
+      const payload: IClientResponse = {
+        id: client.id as string,
+        name: client.name,
+        email: client.email,
+        favorites: [], // TODO: return favorites
+      }
+
+      res.status(HTTPStatus.OK).json(payload)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  /**
+   * Remove productId from favorite list
+   *
+   * @param {Request} req
+   * @param {Response} res
+   * @param {NextFunction} next
+   * @return {*}  {Promise<void>}
+   * @memberof ClientController
+   */
+  async removeFromFavorites(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      this.checkValidationErrors(req)
+
+      const { clientId, productId } = req.params
+
+      const client = await this.clientService.removeFromFavorites(clientId, productId)
+
+      res.status(HTTPStatus.OK).json(client)
+    } catch (error) {
+      next(error)
     }
   }
 }

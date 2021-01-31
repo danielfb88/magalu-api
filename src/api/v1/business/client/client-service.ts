@@ -94,4 +94,54 @@ export default class ClientService {
   async deleteAll(): Promise<void> {
     await this.model.deleteMany({})
   }
+
+  /**
+   * Push productId to favorite list
+   *
+   * @param {string} clientId
+   * @param {{ productId: string }} payload
+   * @return {*}  {Promise<IClient>}
+   * @memberof ClientService
+   */
+  async pushFavorite(clientId: string, productId: string): Promise<IClient> {
+    return this.model.findOneAndUpdate(
+      {
+        _id: clientId,
+      },
+      {
+        $push: {
+          favorites: {
+            productId,
+          },
+        },
+      },
+      {
+        new: true,
+      },
+    )
+  }
+
+  /**
+   * Remove productId from favorite list
+   *
+   * @param {string} clientId
+   * @param {string} productId
+   * @return {*}  {Promise<IClient>}
+   * @memberof ClientService
+   */
+  async removeFromFavorites(clientId: string, productId: string): Promise<IClient> {
+    return this.model.findOneAndUpdate(
+      {
+        _id: clientId,
+      },
+      {
+        $pull: {
+          'favorites.productId': productId,
+        },
+      },
+      {
+        new: true,
+      },
+    )
+  }
 }

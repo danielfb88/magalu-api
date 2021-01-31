@@ -11,4 +11,5 @@ export interface IClient extends INewClient {
 
 export interface IClientResponse extends INewClient {
   id: string
+  favorites: Array<{ productId: string }>
 }

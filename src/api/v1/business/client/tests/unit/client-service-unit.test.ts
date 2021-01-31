@@ -81,4 +81,16 @@ describe('Unit Tests - CRUD Service Client', () => {
 
     done()
   })
+
+  /* test('Should add a product to favorite list', async done => {
+    const createdClient = await clientService.create(mockClient())
+
+    let updatedClient: IClient
+    updatedClient = await clientService.pushFavorite(createdClient.id as string, '123456')
+
+    expect(updatedClient.id).toBeTruthy()
+    expect(updatedClient.email).toEqual(createdClient.email)
+
+    done()
+  }) */
 })

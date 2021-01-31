@@ -17,6 +17,14 @@ const ClientSchema = new mongoose.Schema(
       unique: true,
       required: true,
     },
+    favorites: [
+      {
+        productId: {
+          type: String,
+          required: true,
+        },
+      },
+    ],
   },
   {
     timestamps: true,
