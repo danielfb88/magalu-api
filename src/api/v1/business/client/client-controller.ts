@@ -4,7 +4,7 @@ import BaseController from '../../../../base/base-controller'
 import { ClientNotFoundError } from '../../../../errors/client-not-found-error'
 import { EmailInUseError } from '../../../../errors/email-in-use-error'
 import ClientService from './client-service'
-import { IClientResponse, INewClient } from './client-types'
+import { INewClient } from './client-types'
 
 export default class ClientController extends BaseController {
   protected clientService: ClientService
@@ -36,14 +36,7 @@ export default class ClientController extends BaseController {
 
       const createdClient = await this.clientService.create(newClient)
 
-      const payload: IClientResponse = {
-        id: createdClient.id as string,
-        name: createdClient.name,
-        email: createdClient.email,
-        favorites: [], // TODO: retorn favorite
-      }
-
-      res.status(HTTPStatus.CREATED).json(payload)
+      res.status(HTTPStatus.CREATED).json(createdClient.toJSON())
     } catch (err) {
       next(err)
     }
@@ -67,14 +60,7 @@ export default class ClientController extends BaseController {
 
       const updatedClient = await this.clientService.updateById({ id: clientId, name })
 
-      const payload: IClientResponse = {
-        id: updatedClient.id as string,
-        name: updatedClient.name,
-        email: updatedClient.email,
-        favorites: [], // TODO: return favorites
-      }
-
-      res.status(HTTPStatus.OK).json(payload)
+      res.status(HTTPStatus.OK).json(updatedClient.toJSON())
     } catch (err) {
       next(err)
     }
@@ -118,18 +104,7 @@ export default class ClientController extends BaseController {
 
       const clientList = await this.clientService.findAll()
 
-      res.status(HTTPStatus.OK).json(
-        clientList.map(client => {
-          const payload: IClientResponse = {
-            id: client.id as string,
-            name: client.name,
-            email: client.email,
-            favorites: [], // TODO: return favorites
-          }
-
-          return payload
-        }),
-      )
+      res.status(HTTPStatus.OK).json(clientList.map(client => client.toJSON()))
     } catch (err) {
       next(err)
     }
@@ -156,14 +131,7 @@ export default class ClientController extends BaseController {
         throw new ClientNotFoundError()
       }
 
-      const payload: IClientResponse = {
-        id: client.id as string,
-        name: client.name,
-        email: client.email,
-        favorites: [], // TODO: return favorites
-      }
-
-      res.status(HTTPStatus.OK).json(payload)
+      res.status(HTTPStatus.OK).json(client.toJSON())
     } catch (err) {
       next(err)
     }
@@ -186,14 +154,7 @@ export default class ClientController extends BaseController {
 
       const client = await this.clientService.pushFavorite(clientId, productId)
 
-      const payload: IClientResponse = {
-        id: client.id as string,
-        name: client.name,
-        email: client.email,
-        favorites: [], // TODO: return favorites
-      }
-
-      res.status(HTTPStatus.OK).json(payload)
+      res.status(HTTPStatus.OK).json(client.toJSON())
     } catch (error) {
       next(error)
     }
@@ -216,7 +177,7 @@ export default class ClientController extends BaseController {
 
       const client = await this.clientService.removeFromFavorites(clientId, productId)
 
-      res.status(HTTPStatus.OK).json(client)
+      res.status(HTTPStatus.OK).json(client.toJSON())
     } catch (error) {
       next(error)
     }

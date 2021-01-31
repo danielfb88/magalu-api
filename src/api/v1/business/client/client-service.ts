@@ -1,9 +1,9 @@
 import { Model } from 'mongoose'
-import Client, { IClientDocument } from './client-model'
-import { IClient, INewClient } from './client-types'
+import Client, { IClient } from './client-model'
+import { INewClient } from './client-types'
 
 export default class ClientService {
-  protected model: Model<IClientDocument>
+  protected model: Model<IClient>
 
   constructor() {
     this.model = Client

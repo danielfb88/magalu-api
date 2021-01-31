@@ -7,8 +7,8 @@ import { mockUser } from '../../../../user/user-mock'
 import UserService from '../../../../user/user-service'
 import { IUser } from '../../../../user/user-types'
 import { mockClient } from '../../../client-mock'
+import { IClient } from '../../../client-model'
 import ClientService from '../../../client-service'
-import { IClient } from '../../../client-types'
 
 const request = supertest
 const clientService = new ClientService()
