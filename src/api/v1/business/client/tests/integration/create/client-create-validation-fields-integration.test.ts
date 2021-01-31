@@ -29,13 +29,10 @@ describe('Integration Test - Validate creation client', () => {
   })
 
   test('Should return BAD_REQUEST error when not sent a required name', async done => {
-    const res = await request(app)
-      .post(endpoint)
-      .set('api_key', createdUser.apiKey as string)
-      .send({
-        name: undefined,
-        email: faker.internet.email(),
-      })
+    const res = await request(app).post(endpoint).set('api_key', createdUser.apiKey).send({
+      name: undefined,
+      email: faker.internet.email(),
+    })
 
     expect(res.status).toBe(HTTPStatus.BAD_REQUEST)
 
@@ -43,13 +40,10 @@ describe('Integration Test - Validate creation client', () => {
   })
 
   test('Should return BAD_REQUEST error when not sent a required email', async done => {
-    const res = await request(app)
-      .post(endpoint)
-      .set('api_key', createdUser.apiKey as string)
-      .send({
-        name: faker.name.firstName(),
-        email: undefined,
-      })
+    const res = await request(app).post(endpoint).set('api_key', createdUser.apiKey).send({
+      name: faker.name.firstName(),
+      email: undefined,
+    })
 
     expect(res.status).toBe(HTTPStatus.BAD_REQUEST)
 
@@ -57,13 +51,10 @@ describe('Integration Test - Validate creation client', () => {
   })
 
   test('Should return BAD_REQUEST error when sent an invalid email', async done => {
-    const res = await request(app)
-      .post(endpoint)
-      .set('api_key', createdUser.apiKey as string)
-      .send({
-        name: faker.name.firstName(),
-        email: 'invalid_email',
-      })
+    const res = await request(app).post(endpoint).set('api_key', createdUser.apiKey).send({
+      name: faker.name.firstName(),
+      email: 'invalid_email',
+    })
 
     expect(res.status).toBe(HTTPStatus.BAD_REQUEST)
 
@@ -73,13 +64,10 @@ describe('Integration Test - Validate creation client', () => {
   test('Should return FORBIDDEN error when email already exists in database', async done => {
     const client = await clientService.create(mockClient())
 
-    const res = await request(app)
-      .post(endpoint)
-      .set('api_key', createdUser.apiKey as string)
-      .send({
-        name: faker.name.firstName(),
-        email: client.email,
-      })
+    const res = await request(app).post(endpoint).set('api_key', createdUser.apiKey).send({
+      name: faker.name.firstName(),
+      email: client.email,
+    })
 
     expect(res.status).toBe(HTTPStatus.FORBIDDEN)
 

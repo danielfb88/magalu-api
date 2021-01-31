@@ -40,7 +40,7 @@ describe('Unit Tests - CRUD Service User', () => {
   test('Should find an user by api key', async done => {
     const createdUser = await userService.create(mockUser(faker.random.alphaNumeric(8)))
 
-    const user = await userService.findByApiKey(createdUser.apiKey as string)
+    const user = await userService.findByApiKey(createdUser.apiKey)
 
     expect(user).not.toBeNull()
     expect(createdUser.id).toEqual(user?.id)

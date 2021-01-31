@@ -4,20 +4,20 @@ import supertest from 'supertest'
 import '../../../../../../../../tests/helpers'
 import app from '../../../../../../../main/app'
 import { mockUser } from '../../../../user/user-mock'
+import { IUserDocument } from '../../../../user/user-model'
 import UserService from '../../../../user/user-service'
-import { IUser } from '../../../../user/user-types'
 import { mockClient } from '../../../client-mock'
+import { IClientDocument } from '../../../client-model'
 import ClientService from '../../../client-service'
-import { IClient } from '../../../client-types'
 
 const request = supertest
 const clientService = new ClientService()
 const userService = new UserService()
 
-let createdUser: IUser
+let createdUser: IUserDocument
 const password = faker.random.alphaNumeric(8)
 
-let createdClient: IClient
+let createdClient: IClientDocument
 
 describe('Integration Test - Validate update client', () => {
   const endpoint = '/v1/client/'
@@ -36,7 +36,7 @@ describe('Integration Test - Validate update client', () => {
     const clientMock = mockClient()
     const res = await request(app)
       .put(`${endpoint}/${createdClient.id}`)
-      .set('api_key', createdUser.apiKey as string)
+      .set('api_key', createdUser.apiKey)
       .send({
         ...clientMock,
         name: undefined,

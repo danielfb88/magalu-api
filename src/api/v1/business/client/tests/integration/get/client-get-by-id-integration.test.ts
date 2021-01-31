@@ -4,18 +4,18 @@ import supertest from 'supertest'
 import '../../../../../../../../tests/helpers'
 import app from '../../../../../../../main/app'
 import { mockUser } from '../../../../user/user-mock'
+import { IUserDocument } from '../../../../user/user-model'
 import UserService from '../../../../user/user-service'
-import { IUser } from '../../../../user/user-types'
 import { mockClient } from '../../../client-mock'
+import { IClientDocument } from '../../../client-model'
 import ClientService from '../../../client-service'
-import { IClient } from '../../../client-types'
 
 const request = supertest
 const clientService = new ClientService()
 const userService = new UserService()
 
-let createdUser: IUser
-let createdClient: IClient
+let createdUser: IUserDocument
+let createdClient: IClientDocument
 
 const password = faker.random.alphaNumeric(8)
 
@@ -32,9 +32,7 @@ describe('Integration Test - Get client by id', () => {
   })
 
   test('Should get a client', async done => {
-    const res = await request(app)
-      .get(`${endpoint}/${createdClient.id}`)
-      .set('api_key', createdUser.apiKey as string)
+    const res = await request(app).get(`${endpoint}/${createdClient.id}`).set('api_key', createdUser.apiKey)
 
     expect(res.status).toBe(HTTPStatus.OK)
     expect(res.body.name).toEqual(createdClient.name)

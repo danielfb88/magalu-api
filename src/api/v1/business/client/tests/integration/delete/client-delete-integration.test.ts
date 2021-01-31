@@ -33,13 +33,11 @@ describe('Integration Test - Delete client', () => {
   })
 
   test('Should delete a client', async done => {
-    const res = await request(app)
-      .delete(`${endpoint}/${createdClient.id}`)
-      .set('api_key', createdUser.apiKey as string)
+    const res = await request(app).delete(`${endpoint}/${createdClient.id}`).set('api_key', createdUser.apiKey)
 
     expect(res.status).toBe(HTTPStatus.OK)
 
-    const client = await clientService.findById(createdClient.id as string)
+    const client = await clientService.findById(createdClient.id)
     expect(client).toBeNull()
 
     done()

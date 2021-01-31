@@ -27,7 +27,7 @@ describe('Unit Tests - CRUD Service Client', () => {
     const createdClient = await clientService.create(mockClient())
 
     const newName = faker.name.firstName()
-    const updatedClient = await clientService.updateById({ id: createdClient.id as string, name: newName })
+    const updatedClient = await clientService.updateById({ id: createdClient.id, name: newName })
 
     expect(updatedClient.id).toBeTruthy()
     expect(updatedClient.email).toEqual(createdClient.email)
@@ -38,9 +38,9 @@ describe('Unit Tests - CRUD Service Client', () => {
 
   test('Should delete a client', async done => {
     const createdClient = await clientService.create(mockClient())
-    await clientService.deleteById(createdClient.id as string)
+    await clientService.deleteById(createdClient.id)
 
-    const client = await clientService.findById(createdClient.id as string)
+    const client = await clientService.findById(createdClient.id)
     expect(client).toBeNull()
 
     done()
@@ -49,7 +49,7 @@ describe('Unit Tests - CRUD Service Client', () => {
   test('Should get a client by id', async done => {
     const createdClient = await clientService.create(mockClient())
 
-    const client = await clientService.findById(createdClient.id as string)
+    const client = await clientService.findById(createdClient.id)
 
     expect(client).not.toBeNull()
     expect(client?.id).toEqual(createdClient.id)

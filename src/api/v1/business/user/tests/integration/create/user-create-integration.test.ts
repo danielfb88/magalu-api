@@ -26,10 +26,7 @@ describe('Integration Test - Create user', () => {
 
   test('Should create an user', async done => {
     const userMock = mockUser(password)
-    const res = await request(app)
-      .post(endpoint)
-      .set('api_key', createdUser.apiKey as string)
-      .send(userMock)
+    const res = await request(app).post(endpoint).set('api_key', createdUser.apiKey).send(userMock)
 
     expect(res.status).toBe(HTTPStatus.CREATED)
     expect(res.body.id).toBeTruthy()
