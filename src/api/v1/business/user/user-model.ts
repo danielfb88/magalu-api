@@ -1,3 +1,5 @@
+import bcrypt from 'bcryptjs'
+import { randomBytes } from 'crypto'
 import mongoose, { Document } from 'mongoose'
 
 export interface IUserDocument extends Document {
@@ -23,13 +25,27 @@ const UserSchema = new mongoose.Schema(
     apiKey: {
       type: String,
       trim: true,
-      required: true,
+      default: randomBytes(20).toString('hex'),
     },
   },
   {
     timestamps: true,
   },
 )
+
+UserSchema.pre<IUserDocument>('save', function (next) {
+  if (!this.isModified('password')) return next()
+
+  bcrypt.genSalt(12, (err, salt) => {
+    if (err) return next(err)
+
+    bcrypt.hash(this.password, salt, (err, hash) => {
+      if (err) return next(err)
+      this.password = hash
+      next()
+    })
+  })
+})
 
 UserSchema.set('toJSON', {
   virtuals: true,

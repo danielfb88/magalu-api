@@ -14,7 +14,6 @@ const clientService = new ClientService()
 const userService = new UserService()
 
 let createdUser: IUserDocument
-const password = faker.random.alphaNumeric(8)
 
 describe('Integration Test - Validate creation client', () => {
   const endpoint = '/v1/client'
@@ -23,7 +22,7 @@ describe('Integration Test - Validate creation client', () => {
     await clientService.deleteAll()
     await userService.deleteAll()
 
-    createdUser = await userService.create(mockUser(password))
+    createdUser = await userService.create(mockUser())
 
     done()
   })

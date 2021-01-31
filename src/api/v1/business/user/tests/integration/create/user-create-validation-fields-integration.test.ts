@@ -52,7 +52,7 @@ describe('Integration Test - Validate creation user', () => {
   })
 
   test('Should return FORBIDDEN error when email already exists in database', async done => {
-    const user = await userService.create(mockUser(faker.random.alphaNumeric(8)))
+    const user = await userService.create(mockUser())
 
     const res = await request(app).post(endpoint).send({
       email: user.email,

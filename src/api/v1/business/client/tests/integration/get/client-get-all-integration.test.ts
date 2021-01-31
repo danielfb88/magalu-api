@@ -1,4 +1,3 @@
-import faker from 'faker'
 import * as HTTPStatus from 'http-status'
 import supertest from 'supertest'
 import '../../../../../../../../tests/helpers'
@@ -14,7 +13,6 @@ const clientService = new ClientService()
 const userService = new UserService()
 
 let createdUser: IUserDocument
-const password = faker.random.alphaNumeric(8)
 
 describe('Integration Test - Get all clients', () => {
   const endpoint = '/v1/client'
@@ -26,7 +24,7 @@ describe('Integration Test - Get all clients', () => {
     await clientService.create(mockClient())
     await clientService.create(mockClient())
 
-    createdUser = await userService.create(mockUser(password))
+    createdUser = await userService.create(mockUser())
 
     done()
   })

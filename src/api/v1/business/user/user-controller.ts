@@ -4,7 +4,6 @@ import BaseController from '../../../../base/base-controller'
 import { AuthenticationFailedError } from '../../../../errors/authentication-failed-error'
 import { EmailInUseError } from '../../../../errors/email-in-use-error'
 import { UserNotFoundError } from '../../../../errors/user-not-found-error'
-import { comparePassword, encryptPassword, generateApiKey } from '../../../../util/crypto'
 import UserService from './user-service'
 export default class UserController extends BaseController {
   readonly userService: UserService
@@ -27,8 +26,7 @@ export default class UserController extends BaseController {
 
       const createdUser = await this.userService.create({
         email,
-        password: encryptPassword(password),
-        apiKey: generateApiKey(),
+        password,
       })
 
       res.status(HTTPStatus.CREATED).json(createdUser.toJSON())
@@ -57,7 +55,7 @@ export default class UserController extends BaseController {
         throw new UserNotFoundError()
       }
 
-      if (!comparePassword(password, user.password)) {
+      if (!this.userService.comparePassword(password, user.password)) {
         throw new AuthenticationFailedError()
       }
 

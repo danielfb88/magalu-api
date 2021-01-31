@@ -1,3 +1,4 @@
+import bcrypt from 'bcryptjs'
 import { Model } from 'mongoose'
 import User, { IUserDocument } from './user-model'
 import { INewUser } from './user-types'
@@ -56,5 +57,17 @@ export default class UserService {
    */
   async deleteAll(): Promise<void> {
     await this.model.deleteMany({})
+  }
+
+  /**
+   * Compare password
+   *
+   * @param {string} password
+   * @param {string} hash
+   * @return {*}  {boolean}
+   * @memberof UserService
+   */
+  comparePassword(password: string, hash: string): boolean {
+    return bcrypt.compareSync(password, hash)
   }
 }
