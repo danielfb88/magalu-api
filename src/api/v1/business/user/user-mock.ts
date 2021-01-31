@@ -1,11 +1,11 @@
 import faker from 'faker'
-import { generateApiKey } from '../../../../util/crypto'
+import { encryptPassword, generateApiKey } from '../../../../util/crypto'
 import { INewUser } from './user-types'
 
-export function mockUser(): INewUser {
+export function mockUser(password: string): INewUser {
   return {
     email: faker.internet.email().toLowerCase(),
-    password: faker.random.alphaNumeric(8),
+    password: encryptPassword(password),
     apiKey: generateApiKey(),
   }
 }

@@ -8,6 +8,7 @@ import YAML from 'yamljs'
 import { getRoutesV1 } from '../api/v1/routes-v1'
 import { handleError } from './middlewares/handle-error'
 import throw404 from './middlewares/throw-404'
+import verifyApiKey from './middlewares/verify-api-key'
 
 class App {
   public app: express.Application
@@ -26,6 +27,7 @@ class App {
     this.app.use(bodyParser.urlencoded({ extended: true }))
     this.app.use(bodyParser.json())
 
+    this.app.use(verifyApiKey)
     this.initSwagger()
     this.loadRoutes()
 

@@ -26,11 +26,24 @@ export default class UserService {
    * Find by Email
    *
    * @param {string} email
-   * @return {*}  {(Promise<IClient | null>)}
+   * @return {*}  {(Promise<IUser | null>)}
    * @memberof UserService
    */
   async findByEmail(email: string): Promise<IUser | null> {
     const user = await this.model.findOne({ email })
+
+    return user
+  }
+
+  /**
+   * Find by api key
+   *
+   * @param {string} apiKey
+   * @return {*}  {(Promise<IUser | null>)}
+   * @memberof UserService
+   */
+  async findByApiKey(apiKey: string): Promise<IUser | null> {
+    const user = await this.model.findOne({ apiKey })
 
     return user
   }

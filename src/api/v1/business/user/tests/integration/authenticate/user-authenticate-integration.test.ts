@@ -1,3 +1,4 @@
+import faker from 'faker'
 import * as HTTPStatus from 'http-status'
 import supertest from 'supertest'
 import '../../../../../../../../tests/helpers'
@@ -7,6 +8,8 @@ import UserService from '../../../user-service'
 
 const request = supertest
 const userService = new UserService()
+
+const plainPassword = faker.random.alphaNumeric(8)
 
 describe('Integration Test - Authenticate user', () => {
   const endpoint = '/v1/user/auth'
@@ -18,12 +21,15 @@ describe('Integration Test - Authenticate user', () => {
   })
 
   test('Should authenticate an user', async done => {
-    const userMock = mockUser()
-    await request(app).post('/v1/user').send(userMock)
+    const userMock = mockUser(plainPassword)
+    await request(app).post('/v1/user').send({
+      email: userMock.email,
+      password: plainPassword,
+    })
 
     const responseAuthenticateUser = await request(app).post(endpoint).send({
       email: userMock.email,
-      password: userMock.password,
+      password: plainPassword,
     })
 
     expect(responseAuthenticateUser.status).toBe(HTTPStatus.OK)
@@ -46,7 +52,7 @@ describe('Integration Test - Authenticate user', () => {
   })
 
   test('Should fail authentication to wrong password', async done => {
-    const userMock = mockUser()
+    const userMock = mockUser(plainPassword)
     const createdUser = await userService.create(userMock)
 
     const res = await request(app).post(endpoint).send({
