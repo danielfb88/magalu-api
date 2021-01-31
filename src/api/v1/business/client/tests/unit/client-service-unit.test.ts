@@ -82,15 +82,42 @@ describe('Unit Tests - CRUD Service Client', () => {
     done()
   })
 
-  /* test('Should add a product to favorite list', async done => {
+  test('Should add a product to favorite list', async done => {
     const createdClient = await clientService.create(mockClient())
 
-    let updatedClient: IClient
-    updatedClient = await clientService.pushFavorite(createdClient.id as string, '123456')
+    await clientService.pushFavorite(createdClient.id, faker.random.uuid())
+    await clientService.pushFavorite(createdClient.id, faker.random.uuid())
+    await clientService.pushFavorite(createdClient.id, faker.random.uuid())
 
-    expect(updatedClient.id).toBeTruthy()
-    expect(updatedClient.email).toEqual(createdClient.email)
+    const client = await clientService.findById(createdClient.id)
+    expect(client?.id).toBeTruthy()
+    expect(client?.favorites).toHaveLength(3)
 
     done()
-  }) */
+  })
+
+  test('Should remove a product from favorite list', async done => {
+    const createdClient = await clientService.create(mockClient())
+
+    const productId1 = faker.random.uuid()
+    const productId2 = faker.random.uuid()
+    const productId3 = faker.random.uuid()
+
+    await clientService.pushFavorite(createdClient.id, productId1)
+    await clientService.pushFavorite(createdClient.id, productId2)
+    await clientService.pushFavorite(createdClient.id, productId3)
+
+    let client = await clientService.findById(createdClient.id)
+    expect(client?.id).toBeTruthy()
+    expect(client?.favorites).toHaveLength(3)
+
+    await clientService.removeFromFavorites(createdClient.id, productId1)
+    await clientService.removeFromFavorites(createdClient.id, productId2)
+    await clientService.removeFromFavorites(createdClient.id, productId3)
+
+    client = await clientService.findById(createdClient.id)
+    expect(client?.favorites).toHaveLength(0)
+
+    done()
+  })
 })

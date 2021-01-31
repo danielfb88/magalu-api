@@ -136,7 +136,9 @@ export default class ClientService {
       },
       {
         $pull: {
-          'favorites.productId': productId,
+          favorites: {
+            productId,
+          },
         },
       },
       {
