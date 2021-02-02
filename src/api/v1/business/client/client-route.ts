@@ -1,10 +1,10 @@
 import { Router } from 'express'
 import ClientController from './client-controller'
 import {
+  addFavoriteValidation,
   createClientValidation,
   deleteClientValidation,
   getClientValidation,
-  pushFavoriteValidation,
   removeFromFavorites,
   updateClientValidation,
 } from './client-validation'
@@ -18,7 +18,7 @@ export function initClientRoutes(): Router {
   router.route('/').get(controller.getAllClients.bind(controller))
   router.route('/:clientId').get(getClientValidation, controller.getClientById.bind(controller))
   router.route('/:clientId').delete(deleteClientValidation, controller.delete.bind(controller))
-  router.route('/:clientId/favorite/:productId').post(pushFavoriteValidation, controller.pushFavorite.bind(controller))
+  router.route('/:clientId/favorite/:productId').patch(addFavoriteValidation, controller.addFavorite.bind(controller))
   router
     .route('/:clientId/favorite/:productId')
     .delete(removeFromFavorites, controller.removeFromFavorites.bind(controller))

@@ -85,9 +85,9 @@ describe('Unit Tests - CRUD Service Client', () => {
   test('Should add a product to favorite list', async done => {
     const createdClient = await clientService.create(mockClient())
 
-    await clientService.pushFavorite(createdClient.id, faker.random.uuid())
-    await clientService.pushFavorite(createdClient.id, faker.random.uuid())
-    await clientService.pushFavorite(createdClient.id, faker.random.uuid())
+    await clientService.addFavorite(createdClient.id, faker.random.uuid())
+    await clientService.addFavorite(createdClient.id, faker.random.uuid())
+    await clientService.addFavorite(createdClient.id, faker.random.uuid())
 
     const client = await clientService.findById(createdClient.id)
     expect(client?.id).toBeTruthy()
@@ -103,9 +103,9 @@ describe('Unit Tests - CRUD Service Client', () => {
     const productId2 = faker.random.uuid()
     const productId3 = faker.random.uuid()
 
-    await clientService.pushFavorite(createdClient.id, productId1)
-    await clientService.pushFavorite(createdClient.id, productId2)
-    await clientService.pushFavorite(createdClient.id, productId3)
+    await clientService.addFavorite(createdClient.id, productId1)
+    await clientService.addFavorite(createdClient.id, productId2)
+    await clientService.addFavorite(createdClient.id, productId3)
 
     let client = await clientService.findById(createdClient.id)
     expect(client?.id).toBeTruthy()

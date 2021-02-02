@@ -146,13 +146,13 @@ export default class ClientController extends BaseController {
    * @return {*}  {Promise<void>}
    * @memberof ClientController
    */
-  async pushFavorite(req: Request, res: Response, next: NextFunction): Promise<void> {
+  async addFavorite(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       this.checkValidationErrors(req)
 
       const { clientId, productId } = req.params
 
-      const client = await this.clientService.pushFavorite(clientId, productId)
+      const client = await this.clientService.addFavorite(clientId, productId)
 
       res.status(HTTPStatus.OK).json(client.toJSON())
     } catch (error) {

@@ -103,13 +103,13 @@ export default class ClientService {
    * @return {*}  {Promise<IClient>}
    * @memberof ClientService
    */
-  async pushFavorite(clientId: string, productId: string): Promise<IClientDocument> {
+  async addFavorite(clientId: string, productId: string): Promise<IClientDocument> {
     return this.model.findOneAndUpdate(
       {
         _id: clientId,
       },
       {
-        $push: {
+        $addToSet: {
           favorites: {
             productId,
           },
