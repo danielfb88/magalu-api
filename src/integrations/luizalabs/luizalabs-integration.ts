@@ -1,7 +1,7 @@
 import { BaseIntegration } from '../../base/base-integration'
 import { MOCK_INTEGRATIONS } from '../integrations.config'
-import { LuizaLabsUnavailableServiceError } from './errors/giphy-unavailable-service-error'
-import { ILuizaLabsResponse } from './luizalabs-integration-types'
+import { LuizaLabsUnavailableServiceError } from './errors/luizalabs-unavailable-service-error'
+import { ILuizaLabsResponse, IProduct } from './luizalabs-integration-types'
 import { LuizaLabsIntegrationMock } from './mock/luizalabs-integration-mock'
 
 const { BASE_URL_LUIZALABS } = process.env
@@ -40,10 +40,10 @@ export class LuizaLabsIntegration extends BaseIntegration {
    * @return {*}  {Promise<ILuizaLabsResponse>}
    * @memberof LuizaLabsIntegration
    */
-  async getProductById(productId: string): Promise<ILuizaLabsResponse> {
+  async getProductById(productId: string): Promise<IProduct> {
     try {
       const endpoint = `/${productId}`
-      const result = await this.axiosInstance.get<ILuizaLabsResponse>(endpoint)
+      const result = await this.axiosInstance.get<IProduct>(endpoint)
 
       return result.data
     } catch (err) {

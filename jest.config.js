@@ -32,7 +32,7 @@ module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'node',
   testMatch: ['**/{src,tests}/**/*.test.ts?(x)'],
-  testTimeout: 60000,
+  testTimeout: 60000 * 100,
   // testResultsProcessor: 'jest-sonar-reporter',
   setupFilesAfterEnv: ['<rootDir>/tests/jest-preload.js'],
 }

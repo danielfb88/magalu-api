@@ -2,11 +2,11 @@ import HTTPStatus from 'http-status'
 import { CustomError, IError } from '../../../errors/custom-error'
 
 export class LuizaLabsUnavailableServiceError extends CustomError {
-  statusCode = HTTPStatus.INTERNAL_SERVER_ERROR
-  reason = 'LuizaLabs Unavailable service'
+  statusCode = HTTPStatus.NOT_FOUND
+  reason = 'LuizaLabs service - Product not found'
 
   constructor() {
-    super('UNAVAILABLE_SERVICE')
+    super('PRODUCT_NOT_FOUND')
 
     Object.setPrototypeOf(this, LuizaLabsUnavailableServiceError.prototype)
   }

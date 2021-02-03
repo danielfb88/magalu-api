@@ -1,15 +1,31 @@
 import mongoose, { Document } from 'mongoose'
+import { IProduct } from '../../../../integrations/luizalabs/luizalabs-integration-types'
 
 export interface IClientDocument extends Document {
   name: string
   email: string
-  favorites: Array<{ productId: string }>
+  favorites: IProduct[]
 }
 
 const ProductSchema = new mongoose.Schema({
-  productId: {
+  id: {
     type: String,
     required: true,
+  },
+  price: {
+    type: Number,
+    required: true,
+  },
+  brand: {
+    type: String,
+    required: true,
+  },
+  title: {
+    type: String,
+    required: true,
+  },
+  reviewScore: {
+    type: String,
   },
 })
 

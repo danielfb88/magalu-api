@@ -1,7 +1,8 @@
 import faker from 'faker'
-import { ILuizaLabsResponse, IProduct } from '../luizalabs-integration-types'
+import { ILuizaLabsResponse, IProduct, IProductNotFoundResponse } from '../luizalabs-integration-types'
 
 export const PRODUCT_ID_MOCK = '123'
+export const NON_EXISTENT_PRODUCT_ID_MOCK = '1234546-non-existent'
 
 export function getProductById(productId: string): IProduct {
   return {
@@ -10,6 +11,13 @@ export function getProductById(productId: string): IProduct {
     image: faker.internet.url(),
     price: faker.random.number(),
     title: faker.random.words(),
+  }
+}
+
+export function getProductIdNotFoundResponse(productId: string): IProductNotFoundResponse {
+  return {
+    error_message: `Product ${productId}__ not found`,
+    code: 'not_found',
   }
 }
 

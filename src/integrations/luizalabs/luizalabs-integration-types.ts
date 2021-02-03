@@ -14,3 +14,8 @@ export interface ILuizaLabsResponse {
   }
   products: IProduct[]
 }
+
+export interface IProductNotFoundResponse {
+  error_message: string
+  code: string
+}

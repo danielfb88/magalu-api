@@ -1,7 +1,10 @@
-import faker from 'faker'
 import * as HTTPStatus from 'http-status'
 import supertest from 'supertest'
 import '../../../../../../../../tests/helpers'
+import {
+  NON_EXISTENT_PRODUCT_ID_MOCK,
+  PRODUCT_ID_MOCK,
+} from '../../../../../../../integrations/luizalabs/mock/luizalabs-objects-mock'
 import app from '../../../../../../../main/app'
 import { mockUser } from '../../../../user/user-mock'
 import { IUserDocument } from '../../../../user/user-model'
@@ -33,13 +36,7 @@ describe('Integration Test - Add product to client favorite favorite list', () =
   test('Should add product to a client favorite list', async done => {
     const productList = [
       {
-        productId: faker.random.uuid(),
-      },
-      {
-        productId: faker.random.uuid(),
-      },
-      {
-        productId: faker.random.uuid(),
+        productId: PRODUCT_ID_MOCK,
       },
     ]
 
@@ -54,10 +51,18 @@ describe('Integration Test - Add product to client favorite favorite list', () =
     // getting client
     const res = await request(app).get(`${endpoint}/${createdClient.id}`).set('api_key', createdUser.apiKey)
 
-    expect(res.status).toBe(HTTPStatus.OK)
-    expect(res.body.name).toEqual(createdClient.name)
-    expect(res.body.email).toEqual(createdClient.email)
     expect(res.body.favorites).toHaveLength(productList.length)
+
+    done()
+  })
+
+  test('Should not add A non existent product in luizalabs to a client favorite list', async done => {
+    const res = await request(app)
+      .patch(`${endpoint}/${createdClient.id}/favorite/${NON_EXISTENT_PRODUCT_ID_MOCK}`)
+      .set('api_key', createdUser.apiKey)
+      .send()
+
+    expect(res.status).toBe(HTTPStatus.NOT_FOUND)
 
     done()
   })

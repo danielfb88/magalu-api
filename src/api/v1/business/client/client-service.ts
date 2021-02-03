@@ -1,4 +1,5 @@
 import { Model } from 'mongoose'
+import { IProduct } from '../../../../integrations/luizalabs/luizalabs-integration-types'
 import Client, { IClientDocument } from './client-model'
 import { INewClient } from './client-types'
 
@@ -103,7 +104,7 @@ export default class ClientService {
    * @return {*}  {Promise<IClient>}
    * @memberof ClientService
    */
-  async addFavorite(clientId: string, productId: string): Promise<IClientDocument> {
+  async addFavorite(clientId: string, product: IProduct): Promise<IClientDocument> {
     return this.model.findOneAndUpdate(
       {
         _id: clientId,
@@ -111,7 +112,7 @@ export default class ClientService {
       {
         $addToSet: {
           favorites: {
-            productId,
+            ...product,
           },
         },
       },
@@ -137,7 +138,7 @@ export default class ClientService {
       {
         $pull: {
           favorites: {
-            productId,
+            id: productId,
           },
         },
       },

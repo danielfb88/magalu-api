@@ -3,15 +3,20 @@ import * as HTTPStatus from 'http-status'
 import BaseController from '../../../../base/base-controller'
 import { ClientNotFoundError } from '../../../../errors/client-not-found-error'
 import { EmailInUseError } from '../../../../errors/email-in-use-error'
+import { ProductNotFoundError } from '../../../../errors/product-not-found-error'
+import { LuizaLabsIntegration } from '../../../../integrations/luizalabs/luizalabs-integration'
 import ClientService from './client-service'
 import { INewClient } from './client-types'
 
 export default class ClientController extends BaseController {
   protected clientService: ClientService
 
+  protected luizalabsIntegration: LuizaLabsIntegration
+
   constructor() {
     super()
     this.clientService = new ClientService()
+    this.luizalabsIntegration = new LuizaLabsIntegration()
   }
 
   /**
@@ -152,7 +157,13 @@ export default class ClientController extends BaseController {
 
       const { clientId, productId } = req.params
 
-      const client = await this.clientService.addFavorite(clientId, productId)
+      const product = await this.luizalabsIntegration.getProductById(productId)
+
+      if (product === null) {
+        throw new ProductNotFoundError()
+      }
+
+      const client = await this.clientService.addFavorite(clientId, product)
 
       if (client === null) {
         throw new ClientNotFoundError()
