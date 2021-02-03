@@ -8,7 +8,7 @@ const userService = new UserService()
 
 interface IPath {
   uri: string
-  method: 'POST' | 'PUT' | 'GET' | 'DELETE'
+  method: 'POST' | 'PUT' | 'GET' | 'DELETE' | 'PATCH'
 }
 
 export default async function verifyApiKey(req: Request, res: Response, next: NextFunction): Promise<void> {
