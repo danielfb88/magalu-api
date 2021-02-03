@@ -6,6 +6,13 @@ export interface IClientDocument extends Document {
   favorites: Array<{ productId: string }>
 }
 
+const ProductSchema = new mongoose.Schema({
+  productId: {
+    type: String,
+    required: true,
+  },
+})
+
 const ClientSchema = new mongoose.Schema(
   {
     name: {
@@ -22,10 +29,8 @@ const ClientSchema = new mongoose.Schema(
     },
     favorites: [
       {
-        productId: {
-          type: String,
-          required: true,
-        },
+        type: ProductSchema,
+        default: [],
       },
     ],
   },

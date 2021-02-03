@@ -17,35 +17,43 @@ const userService = new UserService()
 let createdUser: IUserDocument
 let createdClient: IClientDocument
 
-describe('Integration Test - Add product to client favorite favorite list', () => {
+describe('Integration Test - Remove product to client favorite favorite list', () => {
   const endpoint = '/v1/client'
 
-  beforeEach(async done => {
+  const productList = [
+    {
+      productId: faker.random.uuid(),
+    },
+    {
+      productId: faker.random.uuid(),
+    },
+    {
+      productId: faker.random.uuid(),
+    },
+  ]
+
+  beforeAll(async done => {
     await clientService.deleteAll()
     await userService.deleteAll()
 
     createdUser = await userService.create(mockUser())
     createdClient = await clientService.create(mockClient())
 
-    done()
-  })
-
-  test('Should add product to a client favorite list', async done => {
-    const productList = [
-      {
-        productId: faker.random.uuid(),
-      },
-      {
-        productId: faker.random.uuid(),
-      },
-      {
-        productId: faker.random.uuid(),
-      },
-    ]
-
     const promise = productList.map(async product => {
       await request(app)
         .patch(`${endpoint}/${createdClient.id}/favorite/${product.productId}`)
+        .set('api_key', createdUser.apiKey)
+        .send()
+    })
+    await Promise.all(promise)
+
+    done()
+  })
+
+  test('Should remove product from the client favorite list', async done => {
+    const promise = productList.map(async product => {
+      await request(app)
+        .delete(`${endpoint}/${createdClient.id}/favorite/${product.productId}`)
         .set('api_key', createdUser.apiKey)
         .send()
     })
@@ -57,7 +65,7 @@ describe('Integration Test - Add product to client favorite favorite list', () =
     expect(res.status).toBe(HTTPStatus.OK)
     expect(res.body.name).toEqual(createdClient.name)
     expect(res.body.email).toEqual(createdClient.email)
-    expect(res.body.favorites).toHaveLength(productList.length)
+    expect(res.body.favorites).toHaveLength(0)
 
     done()
   })
@@ -66,7 +74,7 @@ describe('Integration Test - Add product to client favorite favorite list', () =
     const clientMock = mockClient()
     const productId = '123'
 
-    const res = await request(app).patch(`${endpoint}/${createdClient.id}/favorite/${productId}`).send(clientMock)
+    const res = await request(app).delete(`${endpoint}/${createdClient.id}/favorite/${productId}`).send(clientMock)
 
     expect(res.status).toBe(HTTPStatus.UNAUTHORIZED)
 

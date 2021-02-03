@@ -154,6 +154,10 @@ export default class ClientController extends BaseController {
 
       const client = await this.clientService.addFavorite(clientId, productId)
 
+      if (client === null) {
+        throw new ClientNotFoundError()
+      }
+
       res.status(HTTPStatus.OK).json(client.toJSON())
     } catch (error) {
       next(error)
