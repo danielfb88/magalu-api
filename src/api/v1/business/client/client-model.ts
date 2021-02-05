@@ -55,4 +55,13 @@ const ClientSchema = new mongoose.Schema(
   },
 )
 
+ClientSchema.set('toJSON', {
+  virtuals: true,
+  transform: (docs: any, converted: any) => {
+    delete converted.__v
+    delete converted._id
+    return converted
+  },
+})
+
 export default mongoose.model<IClientDocument>('clients', ClientSchema)

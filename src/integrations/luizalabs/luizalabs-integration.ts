@@ -42,7 +42,7 @@ export class LuizaLabsIntegration extends BaseIntegration {
    */
   async getProductById(productId: string): Promise<IProduct> {
     try {
-      const endpoint = `/${productId}`
+      const endpoint = `/${productId}/`
       const result = await this.axiosInstance.get<IProduct>(endpoint)
 
       return result.data
