@@ -1,6 +1,6 @@
 import faker from 'faker'
 import '../../../../../../../tests/helpers'
-import { mockClient } from '../../client-mock'
+import { mockClient, mockProduct } from '../../client-mock'
 import ClientService from '../../client-service'
 
 const clientService = new ClientService()
@@ -85,9 +85,9 @@ describe('Unit Tests - CRUD Service Client', () => {
   test('Should add a product to favorite list', async done => {
     const createdClient = await clientService.create(mockClient())
 
-    await clientService.addFavorite(createdClient.id, faker.random.uuid())
-    await clientService.addFavorite(createdClient.id, faker.random.uuid())
-    await clientService.addFavorite(createdClient.id, faker.random.uuid())
+    await clientService.addFavorite(createdClient.id, mockProduct())
+    await clientService.addFavorite(createdClient.id, mockProduct())
+    await clientService.addFavorite(createdClient.id, mockProduct())
 
     const client = await clientService.findById(createdClient.id)
     expect(client?.id).toBeTruthy()
@@ -99,23 +99,23 @@ describe('Unit Tests - CRUD Service Client', () => {
   test('Should remove a product from favorite list', async done => {
     const createdClient = await clientService.create(mockClient())
 
-    const productId1 = faker.random.uuid()
-    const productId2 = faker.random.uuid()
-    const productId3 = faker.random.uuid()
+    const product1 = mockProduct()
+    const product2 = mockProduct()
+    const product3 = mockProduct()
 
-    await clientService.addFavorite(createdClient.id, productId1)
-    await clientService.addFavorite(createdClient.id, productId2)
-    await clientService.addFavorite(createdClient.id, productId3)
+    await clientService.addFavorite(createdClient.id, product1)
+    await clientService.addFavorite(createdClient.id, product2)
+    await clientService.addFavorite(createdClient.id, product3)
 
     let client = await clientService.findById(createdClient.id)
     expect(client?.id).toBeTruthy()
     expect(client?.favorites).toHaveLength(3)
 
-    await clientService.removeFromFavorites(createdClient.id, productId1)
-    await clientService.removeFromFavorites(createdClient.id, productId2)
-    await clientService.removeFromFavorites(createdClient.id, productId3)
+    await clientService.removeFromFavorites(createdClient.id, product1.id)
+    await clientService.removeFromFavorites(createdClient.id, product2.id)
+    await clientService.removeFromFavorites(createdClient.id, product3.id)
 
-    client = await clientService.findById(createdClient.id)
+    client = await clientService.findById(client?.id)
     expect(client?.favorites).toHaveLength(0)
 
     done()
