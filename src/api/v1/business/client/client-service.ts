@@ -123,6 +123,21 @@ export default class ClientService {
   }
 
   /**
+   * Get product by clientId and productId
+   *
+   * @param {string} clientId
+   * @param {string} productId
+   * @return {*}  {Promise<IClientDocument>}
+   * @memberof ClientService
+   */
+  async getFavorite(clientId: string, productId: string): Promise<IClientDocument> {
+    return this.model.findOne({
+      _id: clientId,
+      favorites: { $elemMatch: { id: productId } },
+    })
+  }
+
+  /**
    * Remove productId from favorite list
    *
    * @param {string} clientId
