@@ -17,7 +17,7 @@ export class LuizaLabsIntegrationMock implements IMockIntegration {
     mockAdapter.onGet('/').reply(200, getLuizaLabsResponseMock())
 
     /* Get product by ID */
-    mockAdapter.onGet(`/${PRODUCT_ID_MOCK}`).reply(200, getProductById(PRODUCT_ID_MOCK))
+    mockAdapter.onGet(`/${PRODUCT_ID_MOCK}/`).reply(200, getProductById(PRODUCT_ID_MOCK))
 
     /* Get product not found response */
     mockAdapter

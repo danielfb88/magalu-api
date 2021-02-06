@@ -20,7 +20,7 @@ const userService = new UserService()
 let createdUser: IUserDocument
 let createdClient: IClientDocument
 
-describe('Integration Test - Add product to client favorite favorite list', () => {
+describe('Client Integration Test - Product favorite list', () => {
   const endpoint = '/v1/client'
 
   beforeEach(async done => {
@@ -34,24 +34,12 @@ describe('Integration Test - Add product to client favorite favorite list', () =
   })
 
   test('Should add product to a client favorite list', async done => {
-    const productList = [
-      {
-        productId: PRODUCT_ID_MOCK,
-      },
-    ]
+    const res = await request(app)
+      .patch(`${endpoint}/${createdClient.id}/favorite/${PRODUCT_ID_MOCK}`)
+      .set('api_key', createdUser.apiKey)
+      .send()
 
-    const promise = productList.map(async product => {
-      await request(app)
-        .patch(`${endpoint}/${createdClient.id}/favorite/${product.productId}`)
-        .set('api_key', createdUser.apiKey)
-        .send()
-    })
-    await Promise.all(promise)
-
-    // getting client
-    const res = await request(app).get(`${endpoint}/${createdClient.id}`).set('api_key', createdUser.apiKey)
-
-    expect(res.body.favorites).toHaveLength(productList.length)
+    expect(res.body.favorites).toHaveLength(1)
 
     done()
   })
