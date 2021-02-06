@@ -18,7 +18,7 @@ let createdUser: IUserDocument
 let createdClient: IClientDocument
 
 describe('Integration Test - Validate update client', () => {
-  const endpoint = '/v1/client/'
+  const endpoint = '/v1/clients/'
 
   beforeAll(async done => {
     await clientService.deleteAll()

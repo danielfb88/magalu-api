@@ -21,7 +21,7 @@ let createdUser: IUserDocument
 let createdClient: IClientDocument
 
 describe('Client Integration Test - Product favorite list', () => {
-  const endpoint = '/v1/client'
+  const endpoint = '/v1/clients'
 
   beforeEach(async done => {
     await clientService.deleteAll()

@@ -17,7 +17,7 @@ let createdUser: IUserDocument
 let createdClient: IClientDocument
 
 describe('Integration Test - Get client by id', () => {
-  const endpoint = '/v1/client'
+  const endpoint = '/v1/clients'
 
   beforeAll(async done => {
     await clientService.deleteAll()

@@ -9,7 +9,7 @@ const request = supertest
 const userService = new UserService()
 
 describe('Integration Test - Create user', () => {
-  const endpoint = '/v1/user'
+  const endpoint = '/v1/users'
 
   beforeAll(async done => {
     await userService.deleteAll()

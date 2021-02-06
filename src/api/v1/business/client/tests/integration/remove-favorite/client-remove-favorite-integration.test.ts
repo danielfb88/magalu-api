@@ -18,7 +18,7 @@ let createdUser: IUserDocument
 let createdClient: IClientDocument
 
 describe('Integration Test - Remove product to client favorite favorite list', () => {
-  const endpoint = '/v1/client'
+  const endpoint = '/v1/clients'
 
   const productList = [
     {

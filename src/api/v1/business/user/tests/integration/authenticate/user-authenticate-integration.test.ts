@@ -9,7 +9,7 @@ const request = supertest
 const userService = new UserService()
 
 describe('Integration Test - Authenticate user', () => {
-  const endpoint = '/v1/user/auth'
+  const endpoint = '/v1/users/auth'
 
   beforeAll(async done => {
     await userService.deleteAll()
@@ -19,7 +19,7 @@ describe('Integration Test - Authenticate user', () => {
 
   test('Should authenticate an user', async done => {
     const userMock = mockUser()
-    await request(app).post('/v1/user').send({
+    await request(app).post('/v1/users').send({
       email: userMock.email,
       password: userMock.password,
     })

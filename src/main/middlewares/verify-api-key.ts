@@ -15,8 +15,8 @@ export default async function verifyApiKey(req: Request, res: Response, next: Ne
   const publicPaths: IPath[] = [
     { uri: '/health', method: 'GET' },
     { uri: '/v1/docs', method: 'GET' },
-    { uri: '/v1/user', method: 'POST' },
-    { uri: '/v1/user/auth', method: 'POST' },
+    { uri: '/v1/users', method: 'POST' },
+    { uri: '/v1/users/auth', method: 'POST' },
   ]
   const matched = publicPaths.some(path => new RegExp(path.uri).test(req.path) && req.method === path.method)
   if (matched) {
