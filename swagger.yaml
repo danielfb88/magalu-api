@@ -1,0 +1,477 @@
+openapi: 3.0.0
+info:
+  title: API - LuizaLabs Challenge
+  version: '1.0'
+  contact:
+    name: LuizaLabs
+  description: 'LuizaLabs - Challenge API'
+
+servers:
+  - url: 'http://localhost:3000'
+    description: LOCAL
+
+paths:
+  /v1/users/:
+    parameters: []
+    post:
+      summary: Create a new user
+      operationId: post-v1-user
+      requestBody:
+        description: New user object
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '201':
+          $ref: '#/components/responses/User'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '422':
+          $ref: '#/components/responses/UnprecessableEntityError'
+      tags:
+        - User
+
+  /v1/users/auth:
+    parameters: []
+    post:
+      summary: Authenticate user
+      operationId: post-v1-user-auth
+      requestBody:
+        description: Authenticate user to get an api-key
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/Authenticated'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '422':
+          $ref: '#/components/responses/UnprecessableEntityError'
+      tags:
+        - User
+
+  /v1/clients/:
+    parameters:
+      - in: header
+        name: api_key
+        description: Authorization by Api Key
+        schema:
+          type: string
+    post:
+      summary: Create client
+      operationId: post-v1-client
+      requestBody:
+        description: Create a new client
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+      responses:
+        '201':
+          $ref: '#/components/responses/Client'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '422':
+          $ref: '#/components/responses/UnprecessableEntityError'
+      tags:
+        - Client
+
+    get:
+      summary: Get all clients
+      operationId: post-v1-get-all-clients
+      responses:
+        '200':
+          $ref: '#/components/responses/AllClients'
+        '422':
+          $ref: '#/components/responses/UnprecessableEntityError'
+      tags:
+        - Client
+
+  /v1/clients/{id}:
+    parameters:
+      - in: header
+        name: api_key
+        description: Authorization by Api Key
+        schema:
+          type: string
+    put:
+      summary: Update client name
+      operationId: update-v1-client
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: Client ID
+      requestBody:
+        description: Update client
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/Client'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '422':
+          $ref: '#/components/responses/UnprecessableEntityError'
+      tags:
+        - Client
+      
+    get:
+      summary: Get client by Id
+      operationId: get-v1-client-by-id
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: Client ID
+      responses:
+        '200':
+          $ref: '#/components/responses/GetById'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '422':
+          $ref: '#/components/responses/UnprecessableEntityError'
+      tags:
+        - Client
+
+    delete:
+      summary: Delete client
+      operationId: delete-v1-client
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: Client ID
+      responses:
+        '200':
+          $ref: '#/components/responses/Deleted'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '422':
+          $ref: '#/components/responses/UnprecessableEntityError'
+      tags:
+        - Client
+
+  /v1/clients/{clientId}/favorite/{productId}:
+    parameters:
+      - in: header
+        name: api_key
+        description: Authorization by Api Key
+        schema:
+          type: string
+    patch:
+      summary: Add favorite product
+      operationId: patch-v1-favorite
+      parameters:
+        - in: path
+          name: clientId
+          schema:
+            type: string
+          required: true
+          description: Client ID
+        - in: path
+          name: productId
+          schema:
+            type: string
+          required: true
+          description: Product ID
+      responses:
+        '200':
+          $ref: '#/components/responses/Client'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '422':
+          $ref: '#/components/responses/UnprecessableEntityError'
+      tags:
+        - Client
+
+    delete:
+      summary: Remove favorite product
+      operationId: delete-v1-favorite
+      parameters:
+        - in: path
+          name: clientId
+          schema:
+            type: string
+          required: true
+          description: Client ID
+        - in: path
+          name: productId
+          schema:
+            type: string
+          required: true
+          description: Product ID
+      responses:
+        '200':
+          $ref: '#/components/responses/Client'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '422':
+          $ref: '#/components/responses/UnprecessableEntityError'
+      tags:
+        - Client
+
+components:
+
+  responses:
+    User:
+      description: A JSON object of new record
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              id:
+                type: string
+              email:
+                type: string
+              apiKey:
+                type: string
+              createdAt:
+                type: string
+              updatedAt:
+                type: string
+
+    Client:
+      description: A JSON object of new record
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              id:
+                type: string
+              name:
+                type: string
+              email:
+                type: string
+              favorites:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  price:
+                    type: number
+                  brand:
+                    type: string
+                  title:
+                    type: string
+                  reviewScore:
+                    type: string
+              createdAt:
+                type: string
+              updatedAt:
+                type: string
+
+    AllClients:
+      description: A list with all clients
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                  id:
+                    type: string
+                  name:
+                    type: string
+                  email:
+                    type: string
+                  favorites:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      price:
+                        type: number
+                      brand:
+                        type: string
+                      title:
+                        type: string
+                      reviewScore:
+                        type: string
+                  createdAt:
+                    type: string
+                  updatedAt:
+                    type: string
+
+    Authenticated:
+      description: A JSON object of an authenticaed user
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              id:
+                type: string
+              name:
+                type: string
+              email:
+                type: string
+              apiKey:
+                type: string
+              createdAt:
+                type: string
+              updatedAt:
+                type: string
+    GetById:
+      description: Get a client by Id
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              id:
+                type: string
+              name:
+                type: string
+              email:
+                type: string
+              favorites:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  price:
+                    type: number
+                  brand:
+                    type: string
+                  title:
+                    type: string
+                  reviewScore:
+                    type: string
+              createdAt:
+                type: string
+              updatedAt:
+                type: string
+
+    Deleted:
+      description: Delete a client by Id
+
+    # Errors
+    ForbiddenError:
+      description: Email in use Error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    message:
+                      type: string
+    ValidationError:
+      description: Validation error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    message:
+                      type: string
+                    field:
+                      type: string
+    UnauthorizedError:
+      description: Unauthorized error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    message:
+                      type: string
+                    field:
+                      type: string
+    NotFoundError:
+      description: Not Found error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    message:
+                      type: string
+                    field:
+                      type: string
+    UnprecessableEntityError:
+      description: Unprocessable Entity error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    message:
+                      type: string
+                    field:
+                      type: string

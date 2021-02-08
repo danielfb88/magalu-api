@@ -14,7 +14,7 @@ interface IPath {
 export default async function verifyApiKey(req: Request, res: Response, next: NextFunction): Promise<void> {
   const publicPaths: IPath[] = [
     { uri: '/health', method: 'GET' },
-    { uri: '/v1/docs', method: 'GET' },
+    { uri: '/docs', method: 'GET' },
     { uri: '/v1/users', method: 'POST' },
     { uri: '/v1/users/auth', method: 'POST' },
   ]

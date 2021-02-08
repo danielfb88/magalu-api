@@ -63,6 +63,12 @@ export default class ClientController extends BaseController {
       const { clientId } = req.params
       const { name } = req.body
 
+      const client = await this.clientService.findById(clientId)
+
+      if (client === null) {
+        throw new ClientNotFoundError()
+      }
+
       const updatedClient = await this.clientService.updateById({ id: clientId, name })
 
       res.status(HTTPStatus.OK).json(updatedClient.toJSON())

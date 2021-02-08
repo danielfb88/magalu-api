@@ -41,7 +41,6 @@ class App {
     this.app.use('/v1', getRoutesV1())
   }
 
-  // TODO: create document
   initSwagger(): void {
     const swaggerFile = YAML.load('./swagger.yaml')
     this.app.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerFile))

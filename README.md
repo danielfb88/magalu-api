@@ -26,6 +26,9 @@ $ npm run docker:dev
 ```
 
 # Step 5
+
+## Swagger documentation
+Available in: http://localhost:3000/docs/
 ## Postman collection
 Import the collection file `docs/Magalu.postman_collection.json` to Postman.
 
@@ -46,6 +49,7 @@ This project uses:
   - Express.js
   - MongoDB
   - Docker
+  - Swagger
   - Code linter (Eslint);
   - Commit message linter (git-commit-msg-linter); 
   - Code formatter (Prettier); 
